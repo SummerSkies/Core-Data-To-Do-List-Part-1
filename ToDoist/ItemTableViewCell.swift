@@ -31,13 +31,18 @@ class ItemTableViewCell: UITableViewCell {
         self.item = item
         titleLabel.text = item.title
         subtitleLabel.text = item.subtitle
-        let image = item.isCompleted ? checkedImage : squareImage
-        completedButton.setImage(image, for: .normal)
+        setButtonImage(isCompleted: item.isCompleted)
     }
 
     @IBAction func completeButtonPressed(_ sender: Any) {
         guard let item else { return }
+        setButtonImage(isCompleted: !item.isCompleted)
         delegate?.completeButtonPressed(item: item)
+    }
+    
+    func setButtonImage(isCompleted: Bool) {
+        let image = isCompleted ? checkedImage : squareImage
+        completedButton.setImage(image, for: .normal)
     }
     
 }

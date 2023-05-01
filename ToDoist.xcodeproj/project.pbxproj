@@ -18,6 +18,7 @@
 		2E26E13428FB6BDF00717208 /* ToDoist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E26E13228FB6BDF00717208 /* ToDoist.xcdatamodeld */; };
 		2E26E13628FB6BE000717208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E26E13528FB6BE000717208 /* Assets.xcassets */; };
 		2E26E13928FB6BE000717208 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E26E13728FB6BE000717208 /* LaunchScreen.storyboard */; };
+		863FAEB729FC6D3800225597 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863FAEB629FC6D3800225597 /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		2E26E13528FB6BE000717208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E26E13828FB6BE000717208 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E26E13A28FB6BE000717208 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		863FAEB629FC6D3800225597 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		2E26E12828FB6BDF00717208 /* ToDoist */ = {
 			isa = PBXGroup;
 			children = (
+				863FAEB629FC6D3800225597 /* PersistenceController.swift */,
 				2E26E12928FB6BDF00717208 /* AppDelegate.swift */,
 				2E26E12B28FB6BDF00717208 /* SceneDelegate.swift */,
 				2E26E12D28FB6BDF00717208 /* ItemsViewController.swift */,
@@ -153,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				863FAEB729FC6D3800225597 /* PersistenceController.swift in Sources */,
 				2E26E12E28FB6BDF00717208 /* ItemsViewController.swift in Sources */,
 				2E176FE629051660001B5AE6 /* ItemDataSource.swift in Sources */,
 				2E26E12A28FB6BDF00717208 /* AppDelegate.swift in Sources */,

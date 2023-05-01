@@ -90,18 +90,26 @@ extension ItemsViewController: UITextFieldDelegate {
 private extension ItemsViewController {
     
     func generateNewSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<TableSection, Item>()
-        if !itemManager.items.isEmpty {
-            snapshot.appendSections([.incomplete])
-            snapshot.appendItems(itemManager.items, toSection: .incomplete)
+            // Create a snapshot
+            var snapshot = NSDiffableDataSourceSnapshot<TableSection, Item>()
+            // Fetch incomplete and completed items from Core Data
+            let incompleteItems = itemManager.fetchIncompleteItems()
+            let completedItems = itemManager.fetchCompleteItems()
+            
+            // If there are incomplete items to show, add them to the tableview
+            if !incompleteItems.isEmpty {
+                snapshot.appendSections([.incomplete])
+                snapshot.appendItems(incompleteItems, toSection: .incomplete)
+            }
+            // If there are completed items to show, add them to the tableview
+            if !completedItems.isEmpty {
+                snapshot.appendSections([.complete])
+                snapshot.appendItems(completedItems, toSection: .complete)
+            }
+            // Apply the snapshot
+            DispatchQueue.main.async {
+                self.datasource.apply(snapshot)
+            }
         }
-        if !itemManager.completedItems.isEmpty {
-            snapshot.appendSections([.complete])
-            snapshot.appendItems(itemManager.completedItems, toSection: .complete)
-        }
-        DispatchQueue.main.async {
-            self.datasource.apply(snapshot)
-        }
-    }
     
 }

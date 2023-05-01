@@ -5,7 +5,7 @@
 //  Created by Parker Rushton on 10/21/22.
 //
 
-import Foundation
+import CoreData
 
 class ItemManager {
     static let shared = ItemManager()
@@ -22,17 +22,19 @@ class ItemManager {
     // Funcs
     
     func createNewItem(with title: String) {
-        let newItem = Item(title: title)
+        let newItem = Item(context: PersistenceController.shared.viewContext)
+        newItem.id = UUID().uuidString
+        newItem.title = title
+        newItem.createdAt = Date()
+        newItem.completedAt = nil
+        
+        PersistenceController.shared.saveContext()
         allItems.append(newItem)
     }
     
     func toggleItemCompletion(_ item: Item) {
-        var updatedItem = item
-        updatedItem.completedAt = item.isCompleted ? nil : Date()
-        if let index = allItems.firstIndex(of: item) {
-            allItems.remove(at: index)
-        }
-        allItems.append(updatedItem)
+        item.completedAt = item.isCompleted ? nil : Date()
+        PersistenceController.shared.saveContext()
     }
     
     func delete(at indexPath: IndexPath) {
@@ -40,13 +42,42 @@ class ItemManager {
     }
     
     func remove(_ item: Item) {
-        guard let index = allItems.firstIndex(of: item) else { return }
-        allItems.remove(at: index)
+        let context = PersistenceController.shared.viewContext
+        context.delete(item)
+        PersistenceController.shared.saveContext()
     }
 
     private func item(at indexPath: IndexPath) -> Item {
         let items = indexPath.section == 0 ? items : completedItems
         return items[indexPath.row]
+    }
+    
+    func fetchIncompleteItems() -> [Item] {
+        let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: false)
+        // Create the fetch request
+        let fetchRequest = Item.fetchRequest()
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        // Add the predicate for either incomplete or complete
+        fetchRequest.predicate = NSPredicate(format: "completedAt == nil")
+        let context = PersistenceController.shared.viewContext
+        // Execute the fetch request on a context (view context)
+        let fetchedItems = try? context.fetch(fetchRequest)
+        // If the fetch request fails, return an empty array of Items
+        return fetchedItems ?? []
+    }
+
+    func fetchCompleteItems() -> [Item] {
+        let sortDescriptor = NSSortDescriptor(key: "completedAt", ascending: false)
+        // Create the fetch request
+        let fetchRequest = Item.fetchRequest()
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        // Add the predicate for either incomplete or complete
+        fetchRequest.predicate = NSPredicate(format: "completedAt != nil")
+        let context = PersistenceController.shared.viewContext
+        // Execute the fetch request on a context (view context)
+        let fetchedItems = try? context.fetch(fetchRequest)
+        // If the fetch request fails, return an empty array of Items
+        return fetchedItems ?? []
     }
 
 }
